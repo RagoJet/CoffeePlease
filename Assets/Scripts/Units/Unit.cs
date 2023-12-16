@@ -18,7 +18,7 @@ public class Unit : MonoBehaviour{
     private readonly string _walkingCarryAnimation = "WalkingCarry";
     private readonly string _walkingAnimation = "Walking";
 
-    private void Awake(){
+    protected virtual void Awake(){
         _animator = GetComponent<Animator>();
     }
 
@@ -30,7 +30,7 @@ public class Unit : MonoBehaviour{
         _animator.CrossFade(_walkingAnimation, 0.15F);
     }
 
-    private void SitAnim(){
+    public void SitAnim(){
         _animator.CrossFade(_sitAnimation, 0.15F);
     }
 
