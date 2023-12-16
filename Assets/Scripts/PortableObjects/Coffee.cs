@@ -1,0 +1,2 @@
+public class Coffee : PortableObject{
+}
