@@ -11,13 +11,14 @@ GameObject:
   - component: {fileID: 1992440554594190541}
   - component: {fileID: 2651091326354412325}
   - component: {fileID: 5287765102654804629}
-  - component: {fileID: 2865581776834140375}
+  - component: {fileID: 221646181434311630}
+  - component: {fileID: 5569648248487788889}
   m_Layer: 0
   m_Name: DishWasher
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &1992440554594190541
 Transform:
@@ -84,8 +85,8 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!64 &2865581776834140375
-MeshCollider:
+--- !u!65 &221646181434311630
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -102,7 +103,19 @@ MeshCollider:
   m_IsTrigger: 0
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: -1402302192645033376, guid: 627220fed965f4544a5a91566c9995d7, type: 3}
+  serializedVersion: 3
+  m_Size: {x: 1.0826223, y: 1.708609, z: 0.9565833}
+  m_Center: {x: -0.012017041, y: 0.8543044, z: -0.0014110956}
+--- !u!114 &5569648248487788889
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7755607675673110296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 76d4f2fe90f44596b5d3b7700b2cb153, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  portObjTrans: {fileID: 0}

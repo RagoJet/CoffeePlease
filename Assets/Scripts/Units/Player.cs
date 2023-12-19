@@ -7,7 +7,9 @@ namespace Units{
         private IInputSystem _inputSystem;
         private Rigidbody _rb;
         private CharacterController controller;
-        private float _speed = 5;
+        private float _speed = 4;
+
+        private bool moving;
 
         protected override void Awake(){
             base.Awake();
@@ -16,11 +18,20 @@ namespace Units{
             _inputSystem = AllServices.Instance.GetService<IInputSystem>();
         }
 
-
         void Update(){
             if (_inputSystem.IsUse()){
                 transform.forward = _inputSystem.GetDirection();
                 controller.Move(transform.forward * _speed * Time.deltaTime);
+                if (moving == false){
+                    PlayMoveAnim();
+                    moving = true;
+                }
+            }
+            else{
+                if (moving){
+                    PlayIdleAnim();
+                    moving = false;
+                }
             }
         }
     }

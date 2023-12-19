@@ -5,7 +5,7 @@ public class PortableObjectsFactory : IPortableObjectsFactory{
     private PortableObjectPool _coffeePool = new PortableObjectPool();
     private PortableObjectPool _dirtyPool = new PortableObjectPool();
 
-    public void CreatePortableObject(Vector3 pos, PortableObjectPool pool, string path){
+    public PortableObject CreatePortableObject(Vector3 pos, PortableObjectPool pool, string path){
         PortableObject obj = pool.TryGet();
         if (obj == null){
             obj = GameObject.Instantiate(Resources.Load<PortableObject>(path), pos, Quaternion.identity);
@@ -14,19 +14,21 @@ public class PortableObjectsFactory : IPortableObjectsFactory{
         else{
             obj.transform.position = pos;
         }
+
+        return obj;
     }
 
-    public void CreateCoffee(Vector3 pos){
-        CreatePortableObject(pos, _coffeePool, "PortableObjects/CoffeeCup");
+    public Coffee CreateCoffee(Vector3 pos){
+        return CreatePortableObject(pos, _coffeePool, "PortableObjects/CoffeeCup") as Coffee;
     }
 
 
-    public void CreateDirtyDish(Vector3 pos){
-        CreatePortableObject(pos, _dirtyPool, "PortableObjects/DirtyDish");
+    public DirtyDish CreateDirtyDish(Vector3 pos){
+        return CreatePortableObject(pos, _dirtyPool, "PortableObjects/DirtyDish") as DirtyDish;
     }
 }
 
 public interface IPortableObjectsFactory : IService{
-    public void CreateCoffee(Vector3 pos);
-    public void CreateDirtyDish(Vector3 pos);
+    public Coffee CreateCoffee(Vector3 pos);
+    public DirtyDish CreateDirtyDish(Vector3 pos);
 }
