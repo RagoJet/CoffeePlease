@@ -80,15 +80,15 @@ public class Unit : MonoBehaviour{
     public void GiveCoffee(CashMachine cashMachine){
     }
 
-    public void GetCoffee(List<Coffee> newListOfCoffee){
+    public void ReceiveCoffee(List<Coffee> newListOfCoffee){
         foreach (var coffee in newListOfCoffee){
             _coffees.Add(coffee);
             CarryPorObj();
         }
     }
 
-    public void GetDirtyDishes(List<DirtyDish> dirtyDishes){
-        foreach (var dirtyDish in dirtyDishes){
+    public void ReceiveDirtyDishes(List<DirtyDish> newListOfDirtyDishes){
+        foreach (var dirtyDish in newListOfDirtyDishes){
             _dirtyDishes.Add(dirtyDish);
             CarryPorObj();
         }

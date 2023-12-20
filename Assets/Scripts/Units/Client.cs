@@ -1,57 +1,40 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.AI;
 
 public class Client : Unit{
-    private NavMeshAgent _navMeshAgent;
+    private NavMeshAgent _agent;
 
     private CashMachine _cashMachine;
     private Cafe _cafe;
+    private Vector3 _posDestination;
 
-    protected override void Awake(){
-        capacity = 1;
-        _cashMachine = FindObjectOfType<CashMachine>();
-        _cafe = FindObjectOfType<Cafe>();
+    public void Construct(CashMachine cashMachine, Cafe cafe){
         base.Awake();
-        _navMeshAgent = GetComponent<NavMeshAgent>();
-        _navMeshAgent.SetDestination(_cashMachine.GetPositionForClient());
-        PlayMoveAnim();
+        capacity = 1;
+        _cashMachine = cashMachine;
+        _cafe = cafe;
+        _agent = GetComponent<NavMeshAgent>();
+        _cashMachine.TakeClient(this);
     }
 
-    private void OnTriggerEnter(Collider other){
-        if (other.TryGetComponent(out CashMachine cashMachine)){
-            GetCoffee(cashMachine.GetListCoffee(capacity - _coffees.Count));
-            if (_cafe.TryGetAvailableTable(out Vector3 pos)){
-                {
-                    _navMeshAgent.SetDestination(pos);
-                    PlayMoveAnim();
-                }
-            }
+
+    public void GoInQueue(Vector3 pos){
+        _agent.isStopped = false;
+        _posDestination = pos;
+        float distance = Vector3.Distance(transform.position, _posDestination);
+        if (distance >= _agent.stoppingDistance){
+            _agent.SetDestination(_posDestination);
+            PlayMoveAnim();
         }
+    }
 
-        if (other.TryGetComponent(out Table table)){
-            Chair chair;
-            if (table.TryGetAvailableChair(out chair)){
-                _navMeshAgent.isStopped = true;
-                foreach (var coffee in _coffees){
-                    coffee.transform.parent = null;
-                }
-
-                transform.position = chair.transform.position + new Vector3(0, 1, 0);
-
-                table.GetCoffeesFromClient(_coffees);
-                _coffees.Clear();
-
-                transform.forward = table.transform.position - transform.position;
-                SitAnim();
-                StartCoroutine(CycleOfDrinking(table));
+    private void Update(){
+        if (_agent.isStopped == false){
+            float distance = Vector3.Distance(transform.position, _posDestination);
+            if (distance <= _agent.stoppingDistance){
+                _agent.isStopped = true;
+                PlayIdleAnim();
             }
-        }
-
-        IEnumerator CycleOfDrinking(Table table){
-            yield return new WaitForSeconds(5);
-            table.CoffeesToDirtyDishes();
-            Destroy(gameObject);
         }
     }
 }
