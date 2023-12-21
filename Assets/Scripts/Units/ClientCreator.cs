@@ -10,7 +10,7 @@ public class ClientCreator : MonoBehaviour{
         _time += Time.deltaTime;
         if (_time >= 3){
             if (cashMachine.IsFreeSpace){
-                AllServices.Instance.GetService<IGameObjectsFactory>().CreateClient(transform.position)
+                AllServices.Instance.Get<IGameObjectsFactory>().CreateClient(transform.position)
                     .Construct(cashMachine, cafe);
                 _time = 0;
             }

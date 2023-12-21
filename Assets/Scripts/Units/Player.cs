@@ -15,7 +15,7 @@ namespace Units{
             base.Awake();
             controller = GetComponent<CharacterController>();
             _rb = GetComponent<Rigidbody>();
-            _inputSystem = AllServices.Instance.GetService<IInputSystem>();
+            _inputSystem = AllServices.Instance.Get<IInputSystem>();
         }
 
         void Update(){

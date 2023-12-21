@@ -14,8 +14,8 @@ public class CoffeeMachine : MonoBehaviour{
     }
 
     private void Awake(){
-        for (int i = 0; i < 8; i++){
-            var coffee = AllServices.Instance.GetService<IGameObjectsFactory>()
+        for (int i = 0; i < 10; i++){
+            var coffee = AllServices.Instance.Get<IGameObjectsFactory>()
                 .CreateCoffee(portObjTrans.position + new Vector3(0, 0.2f * _coffees.Count, 0));
             _coffees.Add(coffee);
         }

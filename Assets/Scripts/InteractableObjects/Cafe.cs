@@ -4,15 +4,15 @@ using UnityEngine;
 public class Cafe : MonoBehaviour{
     public List<Table> _tables = new List<Table>();
 
-    public bool TryGetAvailableTable(out Vector3 pos){
+    public bool TryGetAvailableTable(out Table theTable){
         foreach (var table in _tables){
-            if (table.available){
-                pos = table.transform.position;
+            if (table.Available){
+                theTable = table;
                 return true;
             }
         }
 
-        pos = Vector3.zero;
+        theTable = null;
         return false;
     }
 }

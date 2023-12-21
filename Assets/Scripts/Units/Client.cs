@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using Services;
+using UnityEngine;
 using UnityEngine.AI;
 
 public class Client : Unit{
@@ -7,8 +9,9 @@ public class Client : Unit{
     private CashMachine _cashMachine;
     private Cafe _cafe;
     private Vector3 _posDestination;
+    private Chair _targetChair;
 
-    private bool _onPosition;
+    private bool _onPositionQueue;
 
     public void Construct(CashMachine cashMachine, Cafe cafe){
         base.Awake();
@@ -21,7 +24,7 @@ public class Client : Unit{
 
 
     public void GoInQueue(Vector3 pos){
-        _onPosition = false;
+        _onPositionQueue = false;
         _agent.isStopped = false;
         _posDestination = pos;
         float distance = Vector3.Distance(transform.position, _posDestination);
@@ -32,25 +35,50 @@ public class Client : Unit{
     }
 
     private void Update(){
-        if (_agent.isStopped == false){
+        if (_onPositionQueue == false){
             float distance = Vector3.Distance(transform.position, _posDestination);
             if (distance <= _agent.stoppingDistance){
-                _onPosition = true;
+                _onPositionQueue = true;
                 _agent.isStopped = true;
                 PlayIdleAnim();
                 TryGetOrder();
             }
         }
+        else if (_agent.isStopped == false && _targetChair != null){
+            float distance = Vector3.Distance(transform.position, _targetChair.transform.position);
+            if (distance <= _agent.stoppingDistance){
+                _agent.isStopped = true;
+
+                transform.position = _targetChair.transform.position;
+                Table table = _targetChair.table;
+                transform.forward = (table.transform.position - transform.position).normalized;
+                table.SetUpCoffeesFromClient(_coffees);
+                SitAnim();
+                StartCoroutine(DrinkingCoffee());
+            }
+        }
     }
 
     public void TryGetOrder(){
-        if (_onPosition){
+        if (_onPositionQueue){
             _cashMachine.TryGiveOrder(this, capacity - _coffees.Count);
-            if (_coffees.Count == capacity){
+            if (_coffees.Count == capacity && _cafe.TryGetAvailableTable(out Table table)){
+                _targetChair = table.GetChair();
                 _cashMachine.RemoveClient(this);
                 _agent.isStopped = false;
-                _agent.SetDestination(_cafe.transform.position);
+                _agent.SetDestination(_targetChair.transform.position);
+                PlayMoveAnim();
             }
         }
+    }
+
+    IEnumerator DrinkingCoffee(){
+        Coffee coffee = _coffees[0];
+        yield return new WaitForSeconds(7f);
+        _dirtyDishes.Add(
+            AllServices.Instance.Get<IGameObjectsFactory>().CreateDirtyDish(_coffees[0].transform.position));
+        _targetChair.table.RemoveCoffeeFromList(coffee);
+        _coffees.Remove(coffee);
+        Destroy(coffee.gameObject);
     }
 }

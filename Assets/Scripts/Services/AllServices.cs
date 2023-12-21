@@ -12,7 +12,7 @@ namespace Services{
             Container.Add(typeof(T), service);
         }
 
-        public T GetService<T>() where T : IService{
+        public T Get<T>() where T : IService{
             return (T) Container[typeof(T)];
         }
     }
