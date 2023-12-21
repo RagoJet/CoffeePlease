@@ -1,15 +1,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public enum WorkerState{
-    Nothing,
-    Carry
-}
 
 [RequireComponent(typeof(Animator))]
 public class Unit : MonoBehaviour{
     [SerializeField] protected Transform carryTrans;
-    private WorkerState _state = WorkerState.Nothing;
     protected int capacity = 2;
     protected List<Coffee> _coffees = new List<Coffee>();
     protected List<DirtyDish> _dirtyDishes = new List<DirtyDish>();
@@ -47,30 +42,19 @@ public class Unit : MonoBehaviour{
 
     public void PlayMoveAnim(){
         if (_coffees.Count > 0 || _dirtyDishes.Count > 0){
-            _state = WorkerState.Carry;
+            WalkCarryAnim();
         }
         else{
-            _state = WorkerState.Nothing;
-        }
-
-        switch (_state){
-            case WorkerState.Nothing:
-                WalkAnim();
-                break;
-            case WorkerState.Carry:
-                WalkCarryAnim();
-                break;
+            WalkAnim();
         }
     }
 
     public void PlayIdleAnim(){
-        switch (_state){
-            case WorkerState.Nothing:
-                IdleAnim();
-                break;
-            case WorkerState.Carry:
-                CarryAnim();
-                break;
+        if (_coffees.Count > 0 || _dirtyDishes.Count > 0){
+            CarryAnim();
+        }
+        else{
+            IdleAnim();
         }
     }
 

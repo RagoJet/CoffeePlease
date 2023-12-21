@@ -24,6 +24,8 @@ public class CashMachine : MonoBehaviour{
             _coffees.Add(coffee);
             coffee.transform.position = portObjTrans.position + new Vector3(0, _coffees.Count * 0.2f, 0);
         }
+
+        TryGiveOrderToFirstClient();
     }
 
     public void TakeClient(Client client){
@@ -35,6 +37,24 @@ public class CashMachine : MonoBehaviour{
         for (int i = 0; i < _clients.Count; i++){
             _clients[i].GoInQueue(transformsForClient[i].position);
         }
+    }
+
+    public void TryGiveOrder(Client client, int amount){
+        if (_clients.Count > 0){
+            if (_clients[0] == client){
+                client.ReceiveCoffee(GivebackListCoffee(amount));
+            }
+        }
+    }
+
+    public void TryGiveOrderToFirstClient(){
+        if (_clients.Count > 0){
+            _clients[0].TryGetOrder();
+        }
+    }
+
+    public void RemoveClient(Client client){
+        _clients.Remove(client);
     }
 
     public Vector3 GetPositionForWorker(){
