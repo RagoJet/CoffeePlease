@@ -2,6 +2,7 @@
 using UnityEngine;
 
 public class Cafe : MonoBehaviour{
+    [SerializeField] private CashMachine cashMachine;
     public List<Table> _tables = new List<Table>();
 
     public bool TryGetAvailableTable(out Table theTable){
@@ -14,5 +15,9 @@ public class Cafe : MonoBehaviour{
 
         theTable = null;
         return false;
+    }
+
+    public void CheckClients(){
+        cashMachine.TryGiveOrderToFirstClient();
     }
 }

@@ -14,7 +14,6 @@ public class Client : Unit{
     private bool _onPositionQueue;
 
     public void Construct(CashMachine cashMachine, Cafe cafe){
-        base.Awake();
         capacity = 1;
         _cashMachine = cashMachine;
         _cafe = cafe;
@@ -75,10 +74,13 @@ public class Client : Unit{
     IEnumerator DrinkingCoffee(){
         Coffee coffee = _coffees[0];
         yield return new WaitForSeconds(7f);
-        _dirtyDishes.Add(
-            AllServices.Instance.Get<IGameObjectsFactory>().CreateDirtyDish(_coffees[0].transform.position));
+        DirtyDish dirtyDish = AllServices.Instance.Get<IGameObjectsFactory>()
+            .CreateDirtyDish(coffee.transform.position);
+        _targetChair.table.AddDirtyDish(dirtyDish);
         _targetChair.table.RemoveCoffeeFromList(coffee);
         _coffees.Remove(coffee);
+        dirtyDish.chair = _targetChair;
         Destroy(coffee.gameObject);
+        Destroy(this.gameObject);
     }
 }

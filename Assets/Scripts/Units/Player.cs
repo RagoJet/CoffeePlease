@@ -69,9 +69,10 @@ namespace Units{
             if (other.TryGetComponent(out DishWasher dishWasher)){
                 if (_dirtyDishes.Count > 0){
                     foreach (var dish in _dirtyDishes){
-                        _dirtyDishes.Remove(dish);
                         Destroy(dish.gameObject);
                     }
+
+                    _dirtyDishes.Clear();
                 }
             }
         }
