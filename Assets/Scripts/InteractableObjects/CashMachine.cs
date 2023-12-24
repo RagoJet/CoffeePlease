@@ -20,8 +20,10 @@ public class CashMachine : MonoBehaviour{
 
     public void ReceiveCoffeesFromWorker(List<Coffee> newlistOfCoffee){
         foreach (var coffee in newlistOfCoffee){
+            coffee.transform.parent = this.transform;
             _coffees.Add(coffee);
-            coffee.transform.position = portObjTrans.position + new Vector3(0, _coffees.Count * 0.2f, 0);
+            coffee.ChangeDOTweenPos(portObjTrans.localPosition + new Vector3(0, _coffees.Count * 0.2f, 0));
+            // coffee.transform.position = portObjTrans.position + new Vector3(0, _coffees.Count * 0.2f, 0);
         }
 
         TryGiveOrderToFirstClient();

@@ -26,7 +26,7 @@ public class CoffeeMachine : MonoBehaviour{
     private void Update(){
         _time += Time.deltaTime;
 
-        if (_coffees.Count <= 8 && _time >= 4){
+        if (_coffees.Count <= 8 && _time >= 3){
             var coffee = AllServices.Instance.Get<IGameObjectsFactory>()
                 .CreateCoffee(portObjTrans.position + new Vector3(0, 0.2f * _coffees.Count, 0));
             _coffees.Add(coffee);

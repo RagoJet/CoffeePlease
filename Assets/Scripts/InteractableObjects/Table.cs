@@ -27,11 +27,8 @@ public class Table : MonoBehaviour{
         return result;
     }
 
-    public void SetUpCoffeesFromClient(List<Coffee> coffees){
+    public void ReceiveCoffees(List<Coffee> coffees){
         foreach (var coffee in coffees){
-            coffee.transform.parent = this.transform;
-            coffee.transform.localPosition = portObjTrans.localPosition +
-                                             new Vector3(0, 0, (coffeesOnTableList.Count + _dirtyDishes.Count) * 1f);
             coffeesOnTableList.Add(coffee);
         }
     }

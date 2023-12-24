@@ -51,7 +51,14 @@ public class Client : Unit{
                 transform.position = _targetChair.transform.position;
                 Table table = _targetChair.table;
                 transform.forward = (table.transform.position - transform.position).normalized;
-                table.SetUpCoffeesFromClient(_coffees);
+
+
+                foreach (var coffee in _coffees){
+                    coffee.transform.parent = null;
+                    coffee.transform.position = _targetChair.PosForPortableObj;
+                }
+
+                table.ReceiveCoffees(_coffees);
                 SitAnim();
                 StartCoroutine(DrinkingCoffee());
             }
