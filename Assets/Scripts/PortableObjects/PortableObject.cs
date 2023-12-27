@@ -1,16 +1,16 @@
+using System;
 using DG.Tweening;
 using UnityEngine;
 
 public class PortableObject : MonoBehaviour{
     private Tween _tween;
 
-    public void ChangeDOTweenPos(Vector3 pos){
+    public void MoveTo(Vector3 pos, Action func = null){
         _tween.Kill();
-        _tween = transform.DOLocalMove(pos, 0.5f);
+        _tween = transform.DOLocalJump(pos, 1, 1, 0.4f).OnComplete(() => { func?.Invoke(); });
     }
 
-    public void ChangeDOTweenPosThenDestroy(Vector3 pos){
+    private void OnDestroy(){
         _tween.Kill();
-        _tween = transform.DOLocalMove(pos, 0.5f).OnComplete(() => { Destroy(this.gameObject); });
     }
 }

@@ -6,13 +6,21 @@ public class Table : MonoBehaviour{
     [SerializeField] private Chair[] chairs;
     [SerializeField] Transform portObjTrans;
     private List<DirtyDish> _dirtyDishes = new List<DirtyDish>();
-    private List<Coffee> coffeesOnTableList = new List<Coffee>();
+    private List<Coffee> _coffeesOnTableList = new List<Coffee>();
 
 
     private void Awake(){
         foreach (var chair in chairs){
             chair.table = this;
         }
+    }
+
+    public bool HasDirtyDish(){
+        if (_dirtyDishes.Count > 0){
+            return true;
+        }
+
+        return false;
     }
 
     public List<DirtyDish> GivebackListDirtyDishes(int amount){
@@ -29,7 +37,7 @@ public class Table : MonoBehaviour{
 
     public void ReceiveCoffees(List<Coffee> coffees){
         foreach (var coffee in coffees){
-            coffeesOnTableList.Add(coffee);
+            _coffeesOnTableList.Add(coffee);
         }
     }
 
@@ -45,7 +53,7 @@ public class Table : MonoBehaviour{
     }
 
     public void RemoveCoffeeFromList(Coffee coffee){
-        coffeesOnTableList.Remove(coffee);
+        _coffeesOnTableList.Remove(coffee);
     }
 
     public void AddDirtyDish(DirtyDish dish){

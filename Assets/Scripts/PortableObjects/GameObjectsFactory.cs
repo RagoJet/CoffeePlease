@@ -18,10 +18,20 @@ public class GameObjectsFactory : IGameObjectsFactory{
     public Client CreateClient(Vector3 pos){
         return CreateObject(pos, "Client") as Client;
     }
+
+    public MoneyObject CreateMoney(Vector3 pos){
+        return CreateObject(pos, "PortableObjects/MoneyObject") as MoneyObject;
+    }
+
+    public Worker CreateWorker(Vector3 pos){
+        return CreateObject(pos, "Worker") as Worker;
+    }
 }
 
 public interface IGameObjectsFactory : IService{
     public Coffee CreateCoffee(Vector3 pos);
     public DirtyDish CreateDirtyDish(Vector3 pos);
     public Client CreateClient(Vector3 pos);
+    public MoneyObject CreateMoney(Vector3 pos);
+    public Worker CreateWorker(Vector3 pos);
 }

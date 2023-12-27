@@ -1,15 +1,27 @@
-﻿using Services;
+﻿using System;
+using Services;
 using UnityEngine;
 
 namespace Units{
     [RequireComponent(typeof(CharacterController), typeof(Rigidbody), typeof(Collider))]
     public class Player : Unit{
+        private int _amountOfMoney = 300;
+        public int AmountOfMoney => _amountOfMoney;
+
+        public event Action OnChangedMoney;
+
+        [SerializeField] private Transform body;
         private IInputSystem _inputSystem;
         private Rigidbody _rb;
         private CharacterController controller;
         private float _speed = 4;
 
-        private bool moving;
+        private bool _isMoving;
+
+        public Transform Body => body;
+
+        private float _timeInFillImage;
+
 
         protected override void Awake(){
             base.Awake();
@@ -22,15 +34,15 @@ namespace Units{
             if (_inputSystem.IsUse()){
                 transform.forward = _inputSystem.GetDirection();
                 controller.Move(transform.forward * _speed * Time.deltaTime);
-                if (moving == false){
+                if (_isMoving == false){
                     PlayMoveAnim();
-                    moving = true;
+                    _isMoving = true;
                 }
             }
             else{
-                if (moving){
+                if (_isMoving){
                     PlayIdleAnim();
-                    moving = false;
+                    _isMoving = false;
                 }
             }
         }
@@ -70,12 +82,48 @@ namespace Units{
                 if (_dirtyDishes.Count > 0){
                     foreach (var dish in _dirtyDishes){
                         dish.transform.parent = dishWasher.transform;
-                        dish.ChangeDOTweenPosThenDestroy(dishWasher.LocalPosForPortObj);
+                        dish.MoveTo(dishWasher.LocalPosForPortObj, () => Destroy(dish.gameObject));
                     }
 
                     _dirtyDishes.Clear();
                 }
+
+                return;
             }
+
+            if (other.TryGetComponent(out StackOfMoney stackOfMoney)){
+                stackOfMoney.GiveMoney(this);
+                return;
+            }
+
+            if (other.TryGetComponent(out FillImage fillImage)){
+                _timeInFillImage = 0;
+            }
+        }
+
+        private void OnTriggerStay(Collider other){
+            if (other.TryGetComponent(out FillImage fillImage)){
+                _timeInFillImage += Time.deltaTime;
+                if (_timeInFillImage >= 0.2f){
+                    fillImage.GetMoney(this);
+                    _timeInFillImage = 0;
+                }
+            }
+        }
+
+
+        public void AddMoney(int money){
+            _amountOfMoney += money;
+            OnChangedMoney.Invoke();
+        }
+
+        public bool TryGiveMoney(int money){
+            if (_amountOfMoney >= money){
+                _amountOfMoney -= money;
+                OnChangedMoney.Invoke();
+                return true;
+            }
+            else return false;
         }
     }
 }

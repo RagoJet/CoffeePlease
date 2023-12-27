@@ -119,6 +119,7 @@ GameObject:
   - component: {fileID: 2310415512867917087}
   - component: {fileID: 147449647614677136}
   - component: {fileID: 537938192857946600}
+  - component: {fileID: 5260334708210577210}
   m_Layer: 0
   m_Name: CoffeeMachine
   m_TagString: Untagged
@@ -227,6 +228,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   portObjTrans: {fileID: 1785518185411269953}
+--- !u!208 &5260334708210577210
+NavMeshObstacle:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8617995806214233660}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Shape: 1
+  m_Extents: {x: 0.859, y: 0.148, z: 0.517}
+  m_MoveThreshold: 0.1
+  m_Carve: 0
+  m_CarveOnlyStationary: 1
+  m_Center: {x: 0, y: 0.148, z: -0.009000001}
+  m_TimeToStationary: 0.5
 --- !u!1 &9022010598789774283
 GameObject:
   m_ObjectHideFlags: 0

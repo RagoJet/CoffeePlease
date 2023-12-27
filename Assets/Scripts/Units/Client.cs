@@ -8,34 +8,34 @@ public class Client : Unit{
 
     private CashMachine _cashMachine;
     private Cafe _cafe;
-    private Vector3 _posDestination;
     private Chair _targetChair;
 
     private bool _onPositionQueue;
 
-    public void Construct(CashMachine cashMachine, Cafe cafe){
+
+    public void Construct(CashMachine cashMachine, Cafe cafe, int priority){
         capacity = 1;
         _cashMachine = cashMachine;
         _cafe = cafe;
         _agent = GetComponent<NavMeshAgent>();
         _cashMachine.TakeClient(this);
+        _agent.avoidancePriority = priority;
     }
 
 
     public void GoInQueue(Vector3 pos){
         _onPositionQueue = false;
         _agent.isStopped = false;
-        _posDestination = pos;
-        float distance = Vector3.Distance(transform.position, _posDestination);
+        float distance = Vector3.Distance(transform.position, pos);
         if (distance >= _agent.stoppingDistance){
-            _agent.SetDestination(_posDestination);
+            _agent.SetDestination(pos);
             PlayMoveAnim();
         }
     }
 
     private void Update(){
         if (_onPositionQueue == false){
-            float distance = Vector3.Distance(transform.position, _posDestination);
+            float distance = Vector3.Distance(transform.position, _agent.destination);
             if (distance <= _agent.stoppingDistance){
                 _onPositionQueue = true;
                 _agent.isStopped = true;
@@ -43,12 +43,15 @@ public class Client : Unit{
                 TryGetOrder();
             }
         }
-        else if (_agent.isStopped == false && _targetChair != null){
-            float distance = Vector3.Distance(transform.position, _targetChair.transform.position);
+        else if (_agent.isActiveAndEnabled && _agent.isStopped == false && _targetChair != null){
+            float distance = Vector3.Distance(transform.position, _agent.destination);
             if (distance <= _agent.stoppingDistance){
                 _agent.isStopped = true;
+                _agent.enabled = false;
+                SitAnim();
 
-                transform.position = _targetChair.transform.position;
+                transform.position = new Vector3(_targetChair.transform.position.x,
+                    _targetChair.transform.position.y - 0.26f, _targetChair.transform.position.z);
                 Table table = _targetChair.table;
                 transform.forward = (table.transform.position - transform.position).normalized;
 
@@ -59,7 +62,6 @@ public class Client : Unit{
                 }
 
                 table.ReceiveCoffees(_coffees);
-                SitAnim();
                 StartCoroutine(DrinkingCoffee());
             }
         }
@@ -74,6 +76,7 @@ public class Client : Unit{
                 _agent.isStopped = false;
                 _agent.SetDestination(_targetChair.transform.position);
                 PlayMoveAnim();
+                _cashMachine.AddMoneyInStackOfMoney();
             }
         }
     }
