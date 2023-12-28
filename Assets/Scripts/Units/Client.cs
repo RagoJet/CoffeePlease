@@ -48,20 +48,19 @@ public class Client : Unit{
             if (distance <= _agent.stoppingDistance){
                 _agent.isStopped = true;
                 _agent.enabled = false;
-                SitAnim();
 
-                transform.position = new Vector3(_targetChair.transform.position.x,
-                    _targetChair.transform.position.y - 0.26f, _targetChair.transform.position.z);
                 Table table = _targetChair.table;
-                transform.forward = (table.transform.position - transform.position).normalized;
-
-
                 foreach (var coffee in _coffees){
-                    coffee.transform.parent = null;
-                    coffee.transform.position = _targetChair.PosForPortableObj;
+                    coffee.transform.parent = table.transform;
+                    coffee.MoveTo(_targetChair.LocalPosForPortableObj, 0.2f);
                 }
 
                 table.ReceiveCoffees(_coffees);
+
+                transform.position = new Vector3(_targetChair.transform.position.x,
+                    _targetChair.transform.position.y - 0.25f, _targetChair.transform.position.z);
+                transform.forward = (table.transform.position - transform.position).normalized;
+                SitAnim();
                 StartCoroutine(DrinkingCoffee());
             }
         }

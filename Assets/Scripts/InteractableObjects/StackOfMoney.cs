@@ -13,9 +13,12 @@ public class StackOfMoney : MonoBehaviour{
     }
 
     public void GiveMoney(Player player){
+        float duration = 0.3f;
+        _stackOfMonies.Reverse();
         foreach (var moneyObject in _stackOfMonies){
             moneyObject.transform.parent = player.transform;
-            moneyObject.MoveTo(player.Body.localPosition, () => CashOut(player, moneyObject));
+            moneyObject.MoveTo(player.Body.localPosition, duration, () => CashOut(player, moneyObject));
+            duration += 0.05f;
         }
 
         _stackOfMonies.Clear();

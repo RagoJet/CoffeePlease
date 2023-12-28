@@ -22,7 +22,6 @@ namespace Units{
 
         private float _timeInFillImage;
 
-
         protected override void Awake(){
             base.Awake();
             controller = GetComponent<CharacterController>();
@@ -80,9 +79,11 @@ namespace Units{
 
             if (other.TryGetComponent(out DishWasher dishWasher)){
                 if (_dirtyDishes.Count > 0){
+                    float duration = 0.1f;
                     foreach (var dish in _dirtyDishes){
                         dish.transform.parent = dishWasher.transform;
-                        dish.MoveTo(dishWasher.LocalPosForPortObj, () => Destroy(dish.gameObject));
+                        dish.MoveTo(dishWasher.LocalPosForPortObj, duration, () => Destroy(dish.gameObject));
+                        duration += 0.3f;
                     }
 
                     _dirtyDishes.Clear();
@@ -99,6 +100,8 @@ namespace Units{
             if (other.TryGetComponent(out FillImage fillImage)){
                 _timeInFillImage = 0;
             }
+
+            ReAnim();
         }
 
         private void OnTriggerStay(Collider other){
@@ -110,7 +113,6 @@ namespace Units{
                 }
             }
         }
-
 
         public void AddMoney(int money){
             _amountOfMoney += money;
@@ -124,6 +126,14 @@ namespace Units{
                 return true;
             }
             else return false;
+        }
+
+        private void ReAnim(){
+            if (_isMoving){
+                PlayMoveAnim();
+            }
+            else
+                PlayIdleAnim();
         }
     }
 }

@@ -8,10 +8,9 @@ public class MyJoyStick : IInputSystem{
     }
 
     public Vector3 GetDirection(){
-        Vector3 cameraDirection = Camera.main.transform.forward;
-        cameraDirection.y = 0;
-        Vector3 direction = -Vector3.right * _joystick.Vertical + Vector3.forward * _joystick.Horizontal +
-                            cameraDirection;
+        Vector3 joyStickeDirection = Vector3.right * _joystick.Horizontal + Vector3.forward * _joystick.Vertical;
+        Vector3 direction = Camera.main.transform.TransformDirection(joyStickeDirection);
+        direction.y = 0;
         return direction.normalized;
     }
 

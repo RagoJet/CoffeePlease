@@ -14,7 +14,6 @@ public class Worker : Unit{
 
     private Transform _target;
 
-
     public void Construct(Cafe cafe, CoffeeMachine coffeeMachine, CashMachine cashMachine, DishWasher dishWasher,
         int priority){
         _agent = GetComponent<NavMeshAgent>();
@@ -38,7 +37,7 @@ public class Worker : Unit{
                 ReceiveDirtyDishes(table.GivebackListDirtyDishes(capacity - _dirtyDishes.Count));
                 if (_dirtyDishes.Count > 0){
                     _target = _dishWasher.transform;
-                    _agent.SetDestination(_target.position);
+                    GoToTarget();
                 }
                 else FindWork();
             }
@@ -47,7 +46,7 @@ public class Worker : Unit{
                 ReceiveCoffee(coffeeMachine.GivebackListCoffee(capacity - _coffees.Count));
                 if (_coffees.Count > 0){
                     _target = _cashMachine.transform;
-                    _agent.SetDestination(_target.position);
+                    GoToTarget();
                 }
                 else FindWork();
             }
@@ -62,9 +61,11 @@ public class Worker : Unit{
                 FindWork();
             }
             else if (_target.TryGetComponent(out DishWasher dishWasher)){
+                float duration = 0.1f;
                 foreach (var dish in _dirtyDishes){
                     dish.transform.parent = dishWasher.transform;
-                    dish.MoveTo(dishWasher.LocalPosForPortObj, () => Destroy(dish.gameObject));
+                    dish.MoveTo(dishWasher.LocalPosForPortObj, duration, () => Destroy(dish.gameObject));
+                    duration += 0.3f;
                 }
 
                 _dirtyDishes.Clear();
@@ -74,11 +75,11 @@ public class Worker : Unit{
         }
     }
 
-    public void FindWork(){
+    private void FindWork(){
         if (_cafe.TryGetDirtyTable(out Table table)){
             _target = table.transform;
             PlayMoveAnim();
-            _agent.SetDestination(_target.position);
+            GoToTarget();
         }
         else{
             if (_target == _coffeeMachine.transform){
@@ -87,8 +88,13 @@ public class Worker : Unit{
             else{
                 _target = _coffeeMachine.transform;
                 PlayMoveAnim();
-                _agent.SetDestination(_target.position);
+                GoToTarget();
             }
         }
+    }
+
+    private void GoToTarget(){
+        PlayMoveAnim();
+        _agent.SetDestination(_target.position);
     }
 }

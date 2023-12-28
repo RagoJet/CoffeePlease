@@ -20,13 +20,14 @@ public class CashMachine : MonoBehaviour{
     }
 
     public void ReceiveCoffeesFromWorker(List<Coffee> newlistOfCoffee){
+        float duration = 0.1f;
         foreach (var coffee in newlistOfCoffee){
             coffee.transform.parent = this.transform;
             _coffees.Add(coffee);
-            coffee.MoveTo(portObjTrans.localPosition + new Vector3(0, _coffees.Count * 0.2f, 0),
+            coffee.MoveTo(portObjTrans.localPosition + new Vector3(0, _coffees.Count * 0.2f, 0), duration,
                 () => TryGiveOrderToFirstClient());
+            duration += 0.3f;
         }
-
     }
 
     public void TakeClient(Client client){
