@@ -64,7 +64,7 @@ public class Worker : Unit{
                 float duration = 0.1f;
                 foreach (var dish in _dirtyDishes){
                     dish.transform.parent = dishWasher.transform;
-                    dish.MoveTo(dishWasher.LocalPosForPortObj, duration, () => Destroy(dish.gameObject));
+                    dish.LocalMoveTo(dishWasher.LocalPosForPortObj, duration, () => Destroy(dish.gameObject));
                     duration += 0.3f;
                 }
 

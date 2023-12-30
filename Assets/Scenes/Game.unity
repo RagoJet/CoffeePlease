@@ -494,7 +494,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 
+  m_text: bvg
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -5797,10 +5797,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: StackOfMoney
       objectReference: {fileID: 0}
-    - target: {fileID: 2777422724002848648, guid: fde258d5f9956f449909ab91d668f9a6, type: 3}
-      propertyPath: m_StaticEditorFlags
-      value: 2147483647
-      objectReference: {fileID: 0}
     - target: {fileID: 6354155336099999848, guid: fde258d5f9956f449909ab91d668f9a6, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.838
@@ -5841,6 +5837,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6487274241556406613, guid: fde258d5f9956f449909ab91d668f9a6, type: 3}
+      propertyPath: canvas
+      value: 
+      objectReference: {fileID: 394037969}
+    - target: {fileID: 6487274241556406613, guid: fde258d5f9956f449909ab91d668f9a6, type: 3}
+      propertyPath: moneyUI
+      value: 
+      objectReference: {fileID: 685558630}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

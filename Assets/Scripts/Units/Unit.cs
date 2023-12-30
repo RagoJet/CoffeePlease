@@ -76,7 +76,7 @@ public class Unit : MonoBehaviour{
         if (_coffees.Count != 0){
             for (int i = 0; i < _coffees.Count; i++){
                 _coffees[i].transform.parent = this.transform;
-                _coffees[i].MoveTo(carryTrans.localPosition + new Vector3(0, i * 0.3f, 0), duration);
+                _coffees[i].LocalMoveTo(carryTrans.localPosition + new Vector3(0, i * 0.3f, 0), duration);
                 duration += 0.3f;
             }
 
@@ -86,7 +86,7 @@ public class Unit : MonoBehaviour{
         if (_dirtyDishes.Count != 0){
             for (int i = 0; i < _dirtyDishes.Count; i++){
                 _dirtyDishes[i].transform.parent = this.transform;
-                _dirtyDishes[i].MoveTo(carryTrans.localPosition + new Vector3(0, i * 0.3f, 0), duration);
+                _dirtyDishes[i].LocalMoveTo(carryTrans.localPosition + new Vector3(0, i * 0.3f, 0), duration);
                 duration += 0.3f;
             }
 

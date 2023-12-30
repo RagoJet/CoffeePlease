@@ -1,9 +1,14 @@
 ﻿using System.Collections.Generic;
+using DG.Tweening;
 using Services;
 using Units;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class StackOfMoney : MonoBehaviour{
+    [SerializeField] private Canvas canvas;
+    [SerializeField] private Image moneyImagePrefab;
+    [SerializeField] private RectTransform moneyUI;
     private List<MoneyObject> _stackOfMonies = new List<MoneyObject>();
 
     public void AddMoney(){
@@ -13,19 +18,27 @@ public class StackOfMoney : MonoBehaviour{
     }
 
     public void GiveMoney(Player player){
-        float duration = 0.3f;
         _stackOfMonies.Reverse();
+
+        float duration = 0.6f;
         foreach (var moneyObject in _stackOfMonies){
-            moneyObject.transform.parent = player.transform;
-            moneyObject.MoveTo(player.Body.localPosition, duration, () => CashOut(player, moneyObject));
-            duration += 0.05f;
+            Destroy(moneyObject.gameObject);
+            CashOut(player, duration);
+            duration += 0.15f;
         }
 
         _stackOfMonies.Clear();
     }
 
-    public void CashOut(Player player, MoneyObject moneyObject){
-        player.AddMoney(7);
-        Destroy(moneyObject.gameObject);
+
+    public void CashOut(Player player, float duration){
+        Vector3 pos = Camera.main.WorldToScreenPoint(this.transform.position);
+        Image moneyImage = Instantiate(moneyImagePrefab, pos, Quaternion.identity, canvas.transform);
+
+        moneyImage.rectTransform.DOScale(moneyImage.rectTransform.localScale / 2, duration * 0.8f);
+        moneyImage.rectTransform.DOMove(moneyUI.position, duration).OnComplete(() => {
+            player.AddMoney(7);
+            Destroy(moneyImage.gameObject);
+        });
     }
 }
