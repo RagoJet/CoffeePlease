@@ -18,7 +18,9 @@ public class StackOfMoney : MonoBehaviour{
     }
 
     public void GiveMoney(Player player){
-        _stackOfMonies.Reverse();
+        if (_stackOfMonies.Count <= 0){
+            return;
+        }
 
         float duration = 0.6f;
         foreach (var moneyObject in _stackOfMonies){
@@ -28,6 +30,7 @@ public class StackOfMoney : MonoBehaviour{
         }
 
         _stackOfMonies.Clear();
+        AllServices.Instance.Get<IAudioPlayer>().PlayMoneysSound();
     }
 
 

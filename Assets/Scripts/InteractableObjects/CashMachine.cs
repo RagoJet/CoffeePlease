@@ -24,7 +24,7 @@ public class CashMachine : MonoBehaviour{
         foreach (var coffee in newlistOfCoffee){
             coffee.transform.parent = this.transform;
             _coffees.Add(coffee);
-            coffee.MoveTo(portObjTrans.localPosition + new Vector3(0, _coffees.Count * 0.2f, 0), duration,
+            coffee.LocalMoveTo(portObjTrans.localPosition + new Vector3(0, _coffees.Count * 0.2f, 0), duration,
                 () => TryGiveOrderToFirstClient());
             duration += 0.3f;
         }

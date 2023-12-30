@@ -13,8 +13,12 @@ public class StartGame : MonoBehaviour{
         Joystick joystick = Instantiate(Resources.Load<Joystick>("Floating Joystick"), canvas.transform);
         AllServices.Instance.Register<IInputSystem>(new MyJoyStick(joystick));
 
+        AudioPlayer audioPlayer = Instantiate(Resources.Load<AudioPlayer>("AudioPlayer"));
+        AllServices.Instance.Register<IAudioPlayer>(audioPlayer);
+
 
         DontDestroyOnLoad(canvas);
+        DontDestroyOnLoad(audioPlayer);
         SceneManager.LoadScene("Game");
     }
 }

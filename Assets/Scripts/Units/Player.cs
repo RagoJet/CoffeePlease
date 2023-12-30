@@ -99,6 +99,7 @@ namespace Units{
 
             if (other.TryGetComponent(out FillImage fillImage)){
                 _timeInFillImage = 0;
+                AllServices.Instance.Get<IAudioPlayer>().PlayMoneysSound();
             }
 
             ReAnim();
