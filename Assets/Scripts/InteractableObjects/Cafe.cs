@@ -55,5 +55,7 @@ public class Cafe : MonoBehaviour{
         if (_numberOfNewTable < tables.Count){
             tables[_numberOfNewTable].gameObject.SetActive(true);
         }
+
+        CheckClients();
     }
 }

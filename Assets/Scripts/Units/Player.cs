@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Units{
     [RequireComponent(typeof(CharacterController), typeof(Rigidbody), typeof(Collider))]
     public class Player : Unit{
-        private int _amountOfMoney = 300;
+        private int _amountOfMoney = 25;
         public int AmountOfMoney => _amountOfMoney;
 
         public event Action OnChangedMoney;

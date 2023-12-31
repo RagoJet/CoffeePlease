@@ -11,7 +11,9 @@ public class AudioPlayer : MonoBehaviour, IAudioPlayer{
     }
 
     public void PlayMoneysSound(){
-        _audioSource.PlayOneShot(moneyClip);
+        if (!_audioSource.isPlaying){
+            _audioSource.PlayOneShot(moneyClip);
+        }
     }
 }
 

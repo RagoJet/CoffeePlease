@@ -10,7 +10,7 @@ public class ClientCreator : MonoBehaviour{
 
     private void Update(){
         _time += Time.deltaTime;
-        if (_time >= 2.5f){
+        if (_time >= 2f){
             if (cashMachine.IsFreeSpace){
                 _priorityOfWorker++;
                 if (_priorityOfWorker == 90){

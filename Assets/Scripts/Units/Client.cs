@@ -12,7 +12,6 @@ public class Client : Unit{
 
     private bool _onPositionQueue;
 
-
     public void Construct(CashMachine cashMachine, Cafe cafe, int priority){
         capacity = 1;
         _cashMachine = cashMachine;

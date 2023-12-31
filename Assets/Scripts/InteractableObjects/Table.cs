@@ -2,15 +2,16 @@
 using UnityEngine;
 
 public class Table : MonoBehaviour{
-    public bool Available => (chairs[0].available || chairs[1].available) && _dirtyDishes.Count < 2;
-    [SerializeField] private Chair[] chairs;
+    public bool Available => (_chairs[0].available || _chairs[1].available) && _dirtyDishes.Count < 2;
+    private Chair[] _chairs;
     [SerializeField] Transform portObjTrans;
     private List<DirtyDish> _dirtyDishes = new List<DirtyDish>();
     private List<Coffee> _coffeesOnTableList = new List<Coffee>();
 
 
     private void Awake(){
-        foreach (var chair in chairs){
+        _chairs = GetComponentsInChildren<Chair>();
+        foreach (var chair in _chairs){
             chair.table = this;
         }
     }
@@ -42,7 +43,7 @@ public class Table : MonoBehaviour{
     }
 
     public Chair GetChair(){
-        foreach (var chair in chairs){
+        foreach (var chair in _chairs){
             if (chair.available){
                 chair.available = false;
                 return chair;

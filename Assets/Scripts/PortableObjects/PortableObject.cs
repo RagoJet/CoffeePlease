@@ -9,7 +9,6 @@ public class PortableObject : MonoBehaviour{
         _tween.Kill();
         _tween = transform.DOLocalJump(pos, 1, 1, duration).OnComplete(() => { func?.Invoke(); });
     }
-    
 
     private void OnDestroy(){
         _tween.Kill();

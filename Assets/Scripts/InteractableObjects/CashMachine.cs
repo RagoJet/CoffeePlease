@@ -24,10 +24,11 @@ public class CashMachine : MonoBehaviour{
         foreach (var coffee in newlistOfCoffee){
             coffee.transform.parent = this.transform;
             _coffees.Add(coffee);
-            coffee.LocalMoveTo(portObjTrans.localPosition + new Vector3(0, _coffees.Count * 0.2f, 0), duration,
-                () => TryGiveOrderToFirstClient());
+            coffee.LocalMoveTo(portObjTrans.localPosition + new Vector3(0, _coffees.Count * 0.2f, 0), duration);
             duration += 0.3f;
         }
+
+        TryGiveOrderToFirstClient();
     }
 
     public void TakeClient(Client client){
@@ -35,7 +36,7 @@ public class CashMachine : MonoBehaviour{
         SortClientsInQueue();
     }
 
-    public void SortClientsInQueue(){
+    private void SortClientsInQueue(){
         for (int i = 0; i < _clients.Count; i++){
             _clients[i].GoInQueue(transformsForClient[i].position);
         }
@@ -57,11 +58,7 @@ public class CashMachine : MonoBehaviour{
 
     public void RemoveClient(Client client){
         _clients.Remove(client);
-    }
-
-
-    public Vector3 GetPositionForWorker(){
-        return transForWorker.position;
+        SortClientsInQueue();
     }
 
     public void AddMoneyInStackOfMoney(){
