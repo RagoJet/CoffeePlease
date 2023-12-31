@@ -1,2 +1,3 @@
 Gameplay
-![Unity_6fezK8gFB5](https://github.com/RagoJet/CoffeePlease/assets/74066344/fb8d0013-5e72-4920-9f47-ff0a56b2d189)
+
+![Unity_zQVH1iOyHC](https://github.com/RagoJet/CoffeePlease/assets/74066344/2528b593-8b43-4af4-8236-ac94cb04653e)
