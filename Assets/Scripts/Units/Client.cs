@@ -51,7 +51,7 @@ public class Client : Unit{
                 Table table = _targetChair.table;
                 foreach (var coffee in _coffees){
                     coffee.transform.parent = table.transform;
-                    coffee.LocalMoveTo(_targetChair.LocalPosForPortableObj, 0.2f);
+                    coffee.LocalMoveTo(_targetChair.LocalPosForPortableObj, 0.3f);
                 }
 
                 table.ReceiveCoffees(_coffees);

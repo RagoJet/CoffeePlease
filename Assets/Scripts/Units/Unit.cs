@@ -73,12 +73,12 @@ public class Unit : MonoBehaviour{
     }
 
     public void CarryPorObj(){
-        float duration = 0.1f;
+        float duration = 0.4f;
         if (_coffees.Count != 0){
             for (int i = 0; i < _coffees.Count; i++){
                 _coffees[i].transform.parent = this.transform;
                 _coffees[i].LocalMoveTo(carryTrans.localPosition + new Vector3(0, i * 0.3f, 0), duration);
-                duration += 0.3f;
+                duration += 0.15f;
             }
 
             return;
@@ -88,11 +88,10 @@ public class Unit : MonoBehaviour{
             for (int i = 0; i < _dirtyDishes.Count; i++){
                 _dirtyDishes[i].transform.parent = this.transform;
                 _dirtyDishes[i].LocalMoveTo(carryTrans.localPosition + new Vector3(0, i * 0.3f, 0), duration);
-                duration += 0.3f;
+                duration += 0.15f;
             }
 
             return;
         }
     }
-
 }

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace Units{
     [RequireComponent(typeof(CharacterController), typeof(Rigidbody), typeof(Collider))]
     public class Player : Unit{
-        private int _amountOfMoney = 25;
+        private int _amountOfMoney = 125;
         public int AmountOfMoney => _amountOfMoney;
 
         public event Action OnChangedMoney;
@@ -56,10 +56,6 @@ namespace Units{
             }
 
             if (other.TryGetComponent(out CashMachine cashMachine)){
-                if (_dirtyDishes.Count > 0){
-                    return;
-                }
-
                 foreach (var coffee in _coffees){
                     coffee.transform.parent = null;
                 }
